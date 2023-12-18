@@ -59,6 +59,7 @@ def explain(idx_record2explain, X2E, dataset, blackbox,
     # Extract Coutnerfactuals
     diff_outcome = get_diff_outcome(bb_outcome, possible_outcomes)
     print('diff_outcome', diff_outcome)
+    print('bb_outcome', bb_outcome)
     counterfactuals = pyyadt.get_counterfactuals(dt, tree_path, rule, diff_outcome,
                                                  class_name, continuous, features_type)
 

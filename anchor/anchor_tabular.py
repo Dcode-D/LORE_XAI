@@ -1,6 +1,5 @@
 from . import anchor_base
 from . import anchor_explanation
-from . import utils
 import lime
 import lime.lime_tabular
 import collections
@@ -11,6 +10,7 @@ import copy
 import string
 from io import open
 import json
+from sklearn.compose import ColumnTransformer
 
 def id_generator(size=15):
     """Helper function to generate random div ids. This is useful for embedding
@@ -31,22 +31,23 @@ class AnchorTabularExplainer(object):
     """
     def __init__(self, class_names, feature_names, data=None,
                  categorical_names=None, ordinal_features=[]):
-        self.encoder = collections.namedtuple('random_name',
-                                              ['transform'])(lambda x: x)
-        self.disc = collections.namedtuple('random_name2',
-                                              ['discretize'])(lambda x: x)
+        self.transformer = None
         self.categorical_features = []
+
         if categorical_names:
-            # TODO: Check if this n_values is correct!!
             cat_names = sorted(categorical_names.keys())
-            n_values = [len(categorical_names[i]) for i in cat_names]
-            self.encoder = sklearn.preprocessing.OneHotEncoder(
-                categorical_features=cat_names,
-                n_values=n_values)
-            self.encoder.fit(data)
-            self.categorical_features = self.encoder.categorical_features
+            self.categorical_features = [cat_name for cat_name in cat_names if cat_name < len(feature_names)]
+            self.transformer = ColumnTransformer(
+                transformers=[
+                    ('categorical', sklearn.preprocessing.OneHotEncoder(), self.categorical_features)
+                ],
+                remainder='passthrough'  # Pass through non-categorical features
+            )
+            self.transformer.fit(data)
+
         if len(ordinal_features) == 0:
             self.ordinal_features = [x for x in range(len(feature_names)) if x not in self.categorical_features]
+
         self.feature_names = feature_names
         self.class_names = class_names
         self.categorical_names = categorical_names
