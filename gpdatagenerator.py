@@ -288,9 +288,23 @@ DISTRIBUTIONS = [st.uniform, st.dweibull, st.exponweib, st.expon, st.exponnorm, 
 
 
 def freedman_diaconis(x):
+    if len(x) == 0:
+        # Handle the case where the input array is empty
+        return 0
+
     iqr = np.subtract(*np.percentile(x, [75, 25]))
+
+    # Avoid division by zero
     n = len(x)
+    if n == 0:
+        return 0
+
     h = 2.0 * iqr / n**(1.0/3.0)
+
+    # Avoid division by zero again
+    if h == 0:
+        return 0
+
     k = math.ceil((np.max(x) - np.min(x))/h)
     return k
 

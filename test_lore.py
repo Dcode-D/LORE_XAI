@@ -19,6 +19,9 @@ def main():
     dataset = prepare_compass_dataset(dataset_name, path_data)
     print(dataset['label_encoder'][dataset['class_name']].classes_)
     print(dataset['possible_outcomes'])
+    print("continuous traces:",dataset['continuous'])
+    print("discrete traces:",dataset['discrete'])
+
 
     # dataset_name = 'adult.csv'
     # dataset = prepare_adult_dataset(dataset_name, path_data)
