@@ -16,7 +16,14 @@ def main():
     # dataset = prepare_german_dataset(dataset_name, path_data)
 
     dataset_name = 'compas-scores-two-years.csv'
-    dataset = prepare_compass_dataset(dataset_name, path_data)
+    dataset_name = 'adult.csv'
+    # dataset_name = 'german_credit.csv'
+    if(dataset_name == 'compas-scores-two-years.csv'):
+        dataset = prepare_compass_dataset(dataset_name, path_data)
+    elif(dataset_name == 'adult.csv'):
+        dataset = prepare_adult_dataset(dataset_name, path_data)
+    else:
+        dataset = prepare_german_dataset(dataset_name, path_data)
     print(dataset['label_encoder'][dataset['class_name']].classes_)
     print(dataset['possible_outcomes'])
     print("continuous traces:",dataset['continuous'])
@@ -60,7 +67,7 @@ def main():
     print(explanation[0][0][dataset['class_name']], '<<<<')
 
     def eval(x, y):
-        return 1 if x == y else 0
+        return 0 if x == y else 1
 
     precision = [1-eval(v, explanation[0][0][dataset['class_name']]) for v in y2E[covered]]
     print(precision)
