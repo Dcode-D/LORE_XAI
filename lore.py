@@ -95,15 +95,13 @@ def is_satisfied(x, rule, discrete, features_type):
                 val = val.split(col)
                 thr1 = pyyadt.yadt_value2type(val[0].replace('<=', ''), col, features_type)
                 thr2 = pyyadt.yadt_value2type(val[1].replace('<', ''), col, features_type)
-                # if thr2 < x[col] <= thr1: ok
-                print(thr1,"<=", x[col],"<", thr2)
+                # if thr1 <= x[col] < thr2: ok
                 if x[col] < thr1 or x[col] >= thr2:
                     return False
             elif '<' in val and '<=' in val and val.find('<') < val.find('<='):
                 val = val.split(col)
                 thr1 = pyyadt.yadt_value2type(val[0].replace('<', ''), col, features_type)
                 thr2 = pyyadt.yadt_value2type(val[1].replace('<=', ''), col, features_type)
-                print(thr1,"<", x[col],"<=", thr2)
                 # if thr2 < x[col] <= thr1: ok
                 if x[col] <= thr1 or x[col] > thr2:
                     return False

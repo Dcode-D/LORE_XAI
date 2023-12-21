@@ -15,7 +15,7 @@ def main():
     path_data = './datasets/'
     # dataset = prepare_german_dataset(dataset_name, path_data)
 
-    dataset_name = 'compas-scores-two-years.csv'
+    # dataset_name = 'compas-scores-two-years.csv'
     dataset_name = 'adult.csv'
     # dataset_name = 'german_credit.csv'
     if(dataset_name == 'compas-scores-two-years.csv'):
@@ -71,7 +71,8 @@ def main():
 
     precision = [1-eval(v, explanation[0][0][dataset['class_name']]) for v in y2E[covered]]
     print(precision)
-    print(np.mean(precision), np.std(precision))
+    print("precision:",np.mean(precision))
+    print("standrad deviation:",np.std(precision))
 
 
 if __name__ == "__main__":

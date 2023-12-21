@@ -43,6 +43,7 @@ def fit(df, class_name, columns, features_type, discrete, continuous,
 
     dt = nx.DiGraph(nx.drawing.nx_pydot.read_dot(tree_filename))
     dt_dot = pydotplus.graph_from_dot_data(open(tree_filename, 'r').read())
+    dt_dot.write_png('pyyadtresult.png')
     
     if os.path.exists(data_filename):
         os.remove(data_filename)
